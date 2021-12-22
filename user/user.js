@@ -3,12 +3,15 @@ const app = express();
 const bodyParser= require('body-parser');
 const MongoClient = require('mongodb').MongoClient
 const url = "mongodb+srv://dongeun:qw74067406!@cluster0.fcugh.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+const cors = require('cors') // 상단 아무곳이나 추가
 
-app.use(express.static('public'))
-app.use(bodyParser.json()) 
+
+app.use(cors()) // api 위에서 사용하겠다고 선언
+// server와 browser가 연결될때까지 기다리는 것
 app.listen(3000, function() {
 	console.log('listening on 3000')
 });
+
 MongoClient.connect(url, {
 	useUnifiedTopology: true
 } , function(err, database) {
@@ -17,6 +20,7 @@ MongoClient.connect(url, {
 		return;
 	}
 
+	console.log(database.db())
 	console.log("Connected to Database")
 	const db = database.db('test')
     const quotesCollection = db.collection('quotes')
@@ -43,24 +47,5 @@ MongoClient.connect(url, {
         })
     	.catch(error => console.error(error))
 	})
-	app.put('quotes', (req, res) => {
-		quotesCollection.findOneAndUpdate(
-			{name: ''},
-			{
-				$set: {
-					name: req.body.name,
-					quote: req.body.quote
-				}
-			},
-			{
-				// 우리가 찾는 쿼리가 없을 경우 setting값을 quotes에 추가한다
-				upsert: true
-			}
-			.then( result => {
-			console.log(result)
-			} )
-			.catch( error => console.error(error))
 
-		)
-	})
 });

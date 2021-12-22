@@ -14,7 +14,7 @@
 	</form>
 
   <h2> Quotes </h2>
-
+  <button id="update-button">수정수정</button>
   <ul class="quotes">
     <!-- Loop through quotes -->
     <% for(var i = 0; i < quotes.length; i++) {%>
@@ -22,10 +22,12 @@
         <!-- Output name from the iterated quote object -->
         <span><%= quotes[i].name %></span>:
         <!-- Output quote from the iterated quote object -->
-        <span><%= quotes[i].quote %></span>
+        <span><%= quotes[i].quote %></span>:
       </li>
     <% } %>
   </ul>
-
+  <script type="text/javascript">
+    // console.log(db)
+  </script>
 </body>
 </html>
